@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="CarShare.View.Vehicles"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resx="clr-namespace:CarShare.Properties"
+             xmlns:local="clr-namespace:CarShare.View"
+             xmlns:vm="clr-namespace:CarShare.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="660">
+    <UserControl.Resources>
+        <vm:ViewModel x:Key="mainViewModel"/>
+    </UserControl.Resources>
+
+    <Grid DataContext="{StaticResource mainViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" >
+            <ListView x:Name="AllVehicles" Margin="25" Height="280"
+                      ItemsSource="{Binding vehiclesViewModel.vehicleList, UpdateSourceTrigger=PropertyChanged}">
+
+            </ListView>
+
+            </StackPanel>
+    </Grid>
+</UserControl>
