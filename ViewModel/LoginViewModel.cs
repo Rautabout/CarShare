@@ -75,12 +75,13 @@ namespace CarShare.ViewModel
                     login = new RelayCommand(
                         arg =>
                         {
-                            var userContext = UserInfo.Instance;
+                            var userInfo = UserInfo.Instance;
                             var user = model.SearchUserByUserName(UserName);
                             if (user != null && Password == user.Password)
                             {
                                 model.Logged = user;
-                                userContext.CurrentUser = user;
+                                userInfo.CurrentUser = user;
+                                userInfo.currentUser= (sbyte)userInfo.CurrentUser.UserID;
                                 var mainWindow = new MainWindow();
                                 mainWindow.Show();
                                 var loginWindow = (LoginScreen)arg;

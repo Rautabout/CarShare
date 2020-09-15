@@ -33,6 +33,10 @@ namespace CarShare.Model
                 this._currentUser = value;
             }
         }
+        
+
+        public sbyte currentUser { get; set; }// = (sbyte)userInfo.CurrentUser.UserID;
+
 
         private UserInfo() { }
     }

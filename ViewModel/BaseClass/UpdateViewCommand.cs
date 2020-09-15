@@ -31,6 +31,10 @@ namespace CarShare.ViewModel.BaseClass
             {
                 viewModel.SelectedViewModel = new ChangePasswordViewModel();
             }
+            else if (parameter.ToString() == "MyVehicles")
+            {
+                viewModel.SelectedViewModel = new MyVehiclesViewModel();
+            }
         }
     }
 }

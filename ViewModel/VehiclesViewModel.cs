@@ -24,8 +24,6 @@
             vehicles = model.Vehicles;
 
         }
-
-
         #endregion
         #region ViewChanger
         public VehiclesViewModel()
@@ -76,7 +74,6 @@
         private void ClearAll()
         {
             HighestBid = 1;
-
         }
         private ICommand loadBid = null;
         public ICommand LoadBid
