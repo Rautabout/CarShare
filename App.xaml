@@ -9,5 +9,8 @@
         <DataTemplate DataType="{x:Type viewmodel:VehiclesViewModel}">
             <view:Vehicles/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:ChangePasswordViewModel}">
+            <view:ChangePassword/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

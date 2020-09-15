@@ -1,19 +1,19 @@
 ﻿namespace CarShare.ViewModel
 {
     using CarShare.DAL;
+    using BaseClass;
     using CarShare.DAL.Entities;
-    using CarShare.View;
-    using CarShare.ViewModel.BaseClass;
     using Model;
-    using System;
     using System.Collections.ObjectModel;
+    using System.Windows.Input;
 
     class VehiclesViewModel : ViewModelBase
     {
         #region Private Components
         private DBConnection dBConnection;
         private Model model = null;
-        public ObservableCollection<string> VehicleList = new ObservableCollection<string>();
+        private int selectedVehicle,highestBid;
+        private ObservableCollection<Vehicle> vehicles { get; set; }
 
         #endregion
 
@@ -21,21 +21,10 @@
         public VehiclesViewModel(Model model)
         {
             this.model = model;
-            LoadVehiclesToList();
+            vehicles = model.Vehicles;
+
         }
 
-        public void LoadVehiclesToList()
-        {
-            Vehicles = model.Vehicles;
-            VehicleList = new ObservableCollection<string>();
-            foreach (var vehicle in Vehicles)
-            {
-                if (vehicle.IsForSale == true)
-                {
-                VehicleList.Add($"{vehicle.Maker} {vehicle.Model} {vehicle.Version} {vehicle.Engine} {vehicle.Power} {vehicle.ModelYear} {vehicle.HighestBid}");
-                }
-            }
-        }
 
         #endregion
         #region ViewChanger
@@ -46,16 +35,75 @@
         #endregion
 
         #region Properties
-        public ObservableCollection<Vehicle> Vehicles { get; set; }
-        public ObservableCollection<string> vehicleList
+        
+        public ObservableCollection<Vehicle> VehiclesList
         {
-            get => VehicleList;
+            get { return vehicles; }
             set
             {
-                VehicleList = value;
-                onPropertyChanged(nameof(vehicleList));
+                vehicles = value;
+                onPropertyChanged(nameof(VehiclesList));
             }
         }
+
+        public int SelectedVehicle
+        {
+            get => selectedVehicle;
+            set
+            {
+                selectedVehicle = value;
+                onPropertyChanged(nameof(SelectedVehicle));
+            }
+        }
+        public int HighestBid
+        {
+            get => highestBid;
+            set
+            {
+                highestBid = value;
+                onPropertyChanged(nameof(HighestBid));
+            }
+        }
+        #endregion
+
+        #region Methods
+
+        private void GetBid(int vehicleID)
+        {
+            HighestBid = vehicles[vehicleID].HighestBid;
+        }
+
+        private void ClearAll()
+        {
+            HighestBid = 1;
+
+        }
+        private ICommand loadBid = null;
+        public ICommand LoadBid
+        {
+            get
+            {
+                if (loadBid == null)
+                {
+                    loadBid = new RelayCommand(arg =>
+                      {
+                          if (SelectedVehicle != -1)
+                          {
+                              GetBid(SelectedVehicle);
+                          }
+                          else
+                          {
+                              ClearAll();
+                          }
+
+                      },
+                      arg => true);
+                }
+                return loadBid;
+            }
+        }
+
+        
         #endregion
 
     }

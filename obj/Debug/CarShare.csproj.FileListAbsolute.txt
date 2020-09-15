@@ -47,3 +47,5 @@ F:\Drive\CarShare\CarShare\CarShare\obj\Debug\GeneratedInternalTypeHelper.g.cs
 F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\Vehicles.g.cs
 F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\Vehicles.baml
 F:\Drive\CarShare\CarShare\CarShare\obj\Debug\App.baml
+F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\ChangePassword.g.cs
+F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\ChangePassword.baml

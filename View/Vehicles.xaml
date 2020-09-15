@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:resx="clr-namespace:CarShare.Properties"
              xmlns:local="clr-namespace:CarShare.View"
-             xmlns:vm="clr-namespace:CarShare.ViewModel"
+             xmlns:vm="clr-namespace:CarShare.ViewModel" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="660">
     <UserControl.Resources>
@@ -19,12 +19,103 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1" >
-            <ListView x:Name="AllVehicles" Margin="25" Height="280"
-                      ItemsSource="{Binding vehiclesViewModel.vehicleList, UpdateSourceTrigger=PropertyChanged}">
+       
 
+        <StackPanel Grid.Row="1" >
+            <ListView x:Name="AllVehicles1" Height="290" Width="600"
+                      ItemsSource="{Binding vehiclesViewModel.VehiclesList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedIndex="{Binding vehiclesViewModel.SelectedVehicle,Mode=TwoWay}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            
+                            <GridViewColumn Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Maker}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Maker"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Model}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Model"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Version}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Version"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Engine}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Engine"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Power}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Power"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ModelYear}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Model Year"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding HighestBid}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="Highest Bid"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding vehiclesViewModel.LoadBid}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </ListView>
 
-            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBox Text="My Bid" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" Margin="20"/>
+            <TextBox Text="{Binding vehiclesViewModel.HighestBid,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
+            <Button Content="Bid" Height="30" Width="120" Margin="20"/>
+        </StackPanel>
     </Grid>
 </UserControl>

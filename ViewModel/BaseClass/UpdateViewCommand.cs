@@ -15,6 +15,7 @@ namespace CarShare.ViewModel.BaseClass
             this.viewModel = viewModel;
         }
 
+
         public bool CanExecute(object parameter)
         {
             return true;
@@ -25,6 +26,10 @@ namespace CarShare.ViewModel.BaseClass
             if (parameter.ToString() == "Vehicles")
             {
                 viewModel.SelectedViewModel = new VehiclesViewModel();
+            }
+            else if(parameter.ToString()=="ChangePassword")
+            {
+                viewModel.SelectedViewModel = new ChangePasswordViewModel();
             }
         }
     }

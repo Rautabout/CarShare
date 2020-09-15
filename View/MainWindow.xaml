@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarShare.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -22,18 +22,18 @@
         </Grid.ColumnDefinitions>
 
         
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" >
+        <StackPanel Grid.Row="1" Grid.Column="1"  Orientation="Vertical" HorizontalAlignment="Left" Height="290">
             <Button Content="Vehicles" Command="{Binding UpdateViewCommand}" CommandParameter="Vehicles" Margin="10" Width="100"/>
             <Button Content="My Bids" Margin="10" Width="100"/>
             <Button Content="My Vehicles" Margin="10" Width="100"/>
-            <Button Content="Change Password" Margin="10" Width="100"/>
-            <Button Content="Logout" Margin="10" Width="100"/>
-            <Button Content="Quit" Margin="10" Width="100"/>
+            <Button Content="Change Password" Command="{Binding UpdateViewCommand}" CommandParameter="ChangePassword" Margin="10" Width="100"/>
+            <Button Content="Logout" Click="Logout_OnClick" Margin="10" Width="100"/>
+            <Button Content="Quit" Click="ExitApp_OnClick" Margin="10" Width="100"/>
             <Button Content="Manage Users" Margin="10" Width="100" Visibility="Hidden"/>
         </StackPanel>
 
-        
-        <ContentControl Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Content="{Binding SelectedViewModel}"/>
+
+        <ContentControl Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Content="{Binding SelectedViewModel}"/>
 
         
     </Grid>

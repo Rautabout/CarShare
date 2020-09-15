@@ -25,5 +25,19 @@ namespace CarShare.View
             InitializeComponent();
             DataContext = new ViewModel.ViewModel();
         }
+
+
+        private void ExitApp_OnClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+
+        }
+
+        private void Logout_OnClick(object sender, RoutedEventArgs e)
+        {
+            LoginScreen loginScreen = new LoginScreen();
+            loginScreen.Show();
+            Close();
+        }
     }
 }

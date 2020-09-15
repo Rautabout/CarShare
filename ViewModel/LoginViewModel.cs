@@ -15,8 +15,6 @@ namespace CarShare.ViewModel
         #region PrivateConstructor
 
         private Model model = null;
-
-
         private string username, password;
 
         #endregion
@@ -56,12 +54,14 @@ namespace CarShare.ViewModel
 
         #endregion
 
-
+        #region ClearFormula
         private void ClearFormula()
         {
             UserName = "";
             Password = "";
         }
+
+        #endregion
 
         #region Commands
 
