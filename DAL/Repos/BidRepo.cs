@@ -1,4 +1,5 @@
 ﻿using CarShare.DAL.Entities;
+using CarShare.Model;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,6 @@ namespace CarShare.DAL.Repos
         #endregion
 
         #region CRUD
-
-
-        #endregion
-
-
-        #region GetAllBids
         public static List<Bid> GetAllBids()
         {
             List<Bid> bids = new List<Bid>();
@@ -46,6 +41,26 @@ namespace CarShare.DAL.Repos
             return bids;
         }
 
+        public static List<Bid> GetAllUserBids(sbyte currentUser)
+        {
+            List<Bid> bids = new List<Bid>();
+            using (var connection = DBConnection.Instance.Connection)
+            {
+                MySqlCommand command = new MySqlCommand($"{ALL_USER_BIDS} {currentUser}", connection);
+                try { connection.Open(); }
+                catch { MessageBox.Show("Error connecting with database!"); Application.Current.Shutdown(); }
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    bids.Add(new Bid(reader));
+                }
+                connection.Close();
+            }
+            return bids;
+        }
         #endregion
+
+
+      
     }
 }

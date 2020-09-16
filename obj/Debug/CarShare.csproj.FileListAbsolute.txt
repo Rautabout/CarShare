@@ -51,3 +51,5 @@ F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\ChangePassword.g.cs
 F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\ChangePassword.baml
 F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\MyVehicles.g.cs
 F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\MyVehicles.baml
+F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\MyBids.g.cs
+F:\Drive\CarShare\CarShare\CarShare\obj\Debug\View\MyBids.baml

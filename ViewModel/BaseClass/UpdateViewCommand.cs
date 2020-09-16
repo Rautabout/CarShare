@@ -35,6 +35,10 @@ namespace CarShare.ViewModel.BaseClass
             {
                 viewModel.SelectedViewModel = new MyVehiclesViewModel();
             }
+            else if (parameter.ToString() == "MyBids")
+            {
+                viewModel.SelectedViewModel = new MyBidsViewModel();
+            }
         }
     }
 }

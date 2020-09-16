@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using CarShare.Model;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,8 +39,9 @@ namespace CarShare.DAL.Entities
             CurrentOwner = sbyte.Parse(reader["currentOwner"].ToString());
             IsForSale = bool.Parse(reader["isForSale"].ToString());
         }
-
-        public Vehicle(string maker, string model, string version, string engine, int power, int modelYear, int highestBid, sbyte currentOwner, bool isForSale)
+        
+        
+        public Vehicle(string maker, string model, string version, string engine, int power, int modelYear, sbyte currentOwner)
         {
             VehicleID = null;
             Maker = maker.Trim();
@@ -48,9 +50,17 @@ namespace CarShare.DAL.Entities
             Engine = engine.Trim();
             Power = power;
             ModelYear = modelYear;
-            HighestBid = highestBid;
             CurrentOwner = currentOwner;
-            IsForSale = isForSale;
+        }
+        public Vehicle(string maker, string model, string version, string engine, int power, int modelYear)
+        {
+            VehicleID = null;
+            Maker = maker.Trim();
+            Model = model.Trim();
+            Version = version.Trim();
+            Engine = engine.Trim();
+            Power = power;
+            ModelYear = modelYear;
         }
 
         public Vehicle(Vehicle vehicle)
@@ -72,7 +82,8 @@ namespace CarShare.DAL.Entities
 
         public string ToInsert()
         {
-            return $"('{Maker}', '{Model}','{Version}','{Engine}','{Power}','{ModelYear}','{1}','{CurrentOwner}','{1}')";
+            var userInfo = UserInfo.Instance;
+            return $"('{Maker}','{Model}','{Version}','{Engine}','{Power}','{ModelYear}','{(sbyte)userInfo.CurrentUser.UserID}')";
         }
         #endregion
     }

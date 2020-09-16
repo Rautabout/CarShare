@@ -118,6 +118,7 @@
     <Compile Include="ViewModel\BaseClass\ViewModelBase.cs" />
     <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MyBidsViewModel.cs" />
     <Compile Include="ViewModel\MyVehiclesViewModel.cs" />
     <Compile Include="ViewModel\VehiclesViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
@@ -129,6 +130,9 @@
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MyBids.xaml.cs">
+      <DependentUpon>MyBids.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MyVehicles.xaml.cs">
       <DependentUpon>MyVehicles.xaml</DependentUpon>
@@ -184,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MyBids.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

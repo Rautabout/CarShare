@@ -40,6 +40,7 @@ namespace CarShare.ViewModel
 
         public VehiclesViewModel vehiclesViewModel { get; set; }
         public MyVehiclesViewModel myVehiclesViewModel { get; set; }
+        public MyBidsViewModel myBidsViewModel { get; set; }
         #endregion
 
         #region Initializing Constructors
@@ -51,6 +52,7 @@ namespace CarShare.ViewModel
             loginViewModel = new LoginViewModel(model);
             changePasswordViewModel = new ChangePasswordViewModel(model);
             myVehiclesViewModel = new MyVehiclesViewModel(model);
+            myBidsViewModel = new MyBidsViewModel(model);
             UpdateViewCommand = new UpdateViewCommand(this);
         }
 

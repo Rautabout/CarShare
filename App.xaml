@@ -15,5 +15,8 @@
         <DataTemplate DataType="{x:Type viewmodel:MyVehiclesViewModel}">
             <view:MyVehicles/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:MyBidsViewModel}">
+            <view:MyBids/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

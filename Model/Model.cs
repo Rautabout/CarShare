@@ -15,7 +15,7 @@ namespace CarShare.Model
         public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
 
         public ObservableCollection<Vehicle> Vehicles { get; set; } = new ObservableCollection<Vehicle>();
-        //public ObservableCollection<Vehicle> UserVehicles { get; set; } = new ObservableCollection<Vehicle>();
+        public ObservableCollection<Vehicle> UserVehicles { get; set; } = new ObservableCollection<Vehicle>();
 
 
         public ObservableCollection<Bid> Bids { get; set; } = new ObservableCollection<Bid>();
@@ -26,12 +26,12 @@ namespace CarShare.Model
         #region Model
         public Model()
         {
-            //var userInfo = UserInfo.Instance;
-            //var currentUser = userInfo.currentUser;
+            var userInfo = UserInfo.Instance;
+            var currentUser = userInfo.currentUser;
 
             var users = UserRepo.GetAllUsers();
             var vehicles = VehicleRepo.GetAllVehicles();
-           //var userVehicles = VehicleRepo.GetAllUserVehicles(currentUser);
+            var userVehicles = VehicleRepo.GetAllUserVehicles(currentUser);
             var bids = BidRepo.GetAllBids();
 
             foreach (var u in users)
@@ -42,10 +42,10 @@ namespace CarShare.Model
             {
                 Vehicles.Add(v);
             }
-            //foreach (var uV in userVehicles)
-            //{
-            //    UserVehicles.Add(uV);
-            //}
+            foreach (var uV in userVehicles)
+            {
+                UserVehicles.Add(uV);
+            }
             foreach (var b in bids)
             {
                 Bids.Add(b);
@@ -117,18 +117,52 @@ namespace CarShare.Model
         }
         #endregion
 
-        #region GetIDFromDB
-        public sbyte CheckUserID(sbyte listID)
+        #region AddVehicleToDB
+        public bool IfVehicleInDB(Vehicle vehicle) => Vehicles.Contains(vehicle);
+        public bool AddVehicle(Vehicle vehicle)
         {
-            var n = Users[listID].UserID;
-
-            return (sbyte)n;
+            if (IfVehicleInDB(vehicle)) return false;
+            if (!VehicleRepo.AddVehicleToDB(vehicle)) return false;
+            Vehicles.Add(vehicle);
+            return true;
         }
         #endregion
 
+        #region EditVehicleInDB
+        public bool EditVehicleInDB(Vehicle vehicle, sbyte idVehicle)
+        {
+            if (!VehicleRepo.EditVehicleInDB(vehicle, idVehicle)) return false;
+            for (int i = 0; i < Vehicles.Count; i++)
+            {
+                if (Vehicles[i].VehicleID != idVehicle) continue;
+                vehicle.VehicleID = idVehicle;
+                Vehicles[i] = new Vehicle(vehicle);
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region RemoveVehicleFromDB
+        public bool RemoveVehicleFromDb(sbyte idVehicle)
+        {
+            if (!VehicleRepo.DeleteVehicleInDB(idVehicle)) return false;
+            for (int i = 0; i < Vehicles.Count; i++)
+            {
+                if (Vehicles[i].VehicleID != idVehicle) continue;
+                Vehicles.RemoveAt(i);
+            }
+            return true;
+        }
+        #endregion
         #region Logged
 
         public User Logged { get; set; }
+
+        
+
+
 
         #endregion
     }
