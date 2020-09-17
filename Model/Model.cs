@@ -15,7 +15,6 @@ namespace CarShare.Model
         public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
 
         public ObservableCollection<Vehicle> Vehicles { get; set; } = new ObservableCollection<Vehicle>();
-        public ObservableCollection<Vehicle> UserVehicles { get; set; } = new ObservableCollection<Vehicle>();
 
 
         public ObservableCollection<Bid> Bids { get; set; } = new ObservableCollection<Bid>();
@@ -26,12 +25,8 @@ namespace CarShare.Model
         #region Model
         public Model()
         {
-            var userInfo = UserInfo.Instance;
-            var currentUser = userInfo.currentUser;
-
             var users = UserRepo.GetAllUsers();
             var vehicles = VehicleRepo.GetAllVehicles();
-            var userVehicles = VehicleRepo.GetAllUserVehicles(currentUser);
             var bids = BidRepo.GetAllBids();
 
             foreach (var u in users)
@@ -42,10 +37,7 @@ namespace CarShare.Model
             {
                 Vehicles.Add(v);
             }
-            foreach (var uV in userVehicles)
-            {
-                UserVehicles.Add(uV);
-            }
+            
             foreach (var b in bids)
             {
                 Bids.Add(b);
@@ -155,7 +147,26 @@ namespace CarShare.Model
             }
             return true;
         }
+
+
         #endregion
+        #region AddBidToDB
+        public bool IfBidInDB(Bid bid) => Bids.Contains(bid);
+        public bool AddBid(Bid bid)
+        {
+            if (IfBidInDB(bid))
+            {
+                return false;
+            }
+            if (!BidRepo.AddBidToDB(bid))
+            {
+                return false;
+            }
+            Bids.Add(bid);
+            return true;
+        }
+        #endregion
+
         #region Logged
 
         public User Logged { get; set; }

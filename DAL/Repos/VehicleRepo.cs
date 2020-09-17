@@ -13,6 +13,7 @@ namespace CarShare.DAL.Repos
         #region SQL_QUERIES
         private const string ALL_VEHICLES = "SELECT * FROM vehicles";
         private const string ALL_USER_VEHICLES = "SELECT * FROM vehicles WHERE CurrentOwner=";
+        private const string ALL_BUT_USER_VEHICLES = "SELECT * FROM vehicles WHERE NOT CurrentOwner=";
         private const string ALL_VEHICLES_BY_ID = "SELECT * FROM vehicles WHERE VehicleID=";
         private const string ADD_VEHICLE = "INSERT INTO `vehicles`(`Maker`, `Model`, `Version`, `Engine`, `Power`, `ModelYear`,`CurrentOwner`) VALUES ";
         private const string DELETE_VEHICLE= "DELETE FROM `vehicles` WHERE VehicleID=";
@@ -57,6 +58,23 @@ namespace CarShare.DAL.Repos
             }
             return vehicles;
         }
+        public static List<Vehicle> GetAllButUserVehicles(sbyte currentUser)
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+            using (var connection = DBConnection.Instance.Connection)
+            {
+                MySqlCommand command = new MySqlCommand($"{ALL_BUT_USER_VEHICLES} {currentUser}", connection);
+                try { connection.Open(); }
+                catch { MessageBox.Show("Error connecting with database!"); Application.Current.Shutdown(); }
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    vehicles.Add(new Vehicle(reader));
+                }
+                connection.Close();
+            }
+            return vehicles;
+        }
 
         public static List<Vehicle> GetAllVehiclesByID(sbyte vehicleID)
         {
@@ -75,6 +93,7 @@ namespace CarShare.DAL.Repos
             }
             return vehicles;
         }
+
 
 
         public static bool AddVehicleToDB(Vehicle vehicle)

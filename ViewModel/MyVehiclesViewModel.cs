@@ -13,14 +13,14 @@
     {
         #region Private Components
         private DBConnection dBConnection;
-        string maker, carModel, version, engine;
-        int power, modelyear;
-        sbyte vehicleID;
+        private string maker, carModel, version, engine;
+        private int power, modelyear;
+        private sbyte vehicleID;
         private Model model = null;
         private int selectedVehicle;
         private ObservableCollection<Vehicle> vehicles { get; set; } = new ObservableCollection<Vehicle>();
 
-        public ObservableCollection<string> vehiclesList = new ObservableCollection<string>();
+        private ObservableCollection<string> vehiclesList = new ObservableCollection<string>();
         private UserInfo userInfo = UserInfo.Instance;
 
 
@@ -30,7 +30,6 @@
         public MyVehiclesViewModel(Model model)
         {
             this.model = model;
-            //vehicles = model.UserVehicles;
             var currentUser = userInfo.currentUser;
             var userVehicles = VehicleRepo.GetAllUserVehicles(currentUser);
             foreach (var uV in userVehicles)

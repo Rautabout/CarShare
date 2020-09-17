@@ -58,9 +58,32 @@ namespace CarShare.DAL.Repos
             }
             return bids;
         }
+
+
+        public static bool AddBidToDB(Bid bid)
+        {
+            bool status = false;
+
+            using (var connection = DBConnection.Instance.Connection)
+            {
+                string EDIT_VEHICLE = $"UPDATE `vehicles` SET `HighestBid`='{bid.CurrentBid}'" +
+                                           $" WHERE (`VehicleID`='{bid.VehicleID}');";
+                MySqlCommand command1 = new MySqlCommand($"{ADD_BID} {bid.ToInsert()}", connection);
+                MySqlCommand command2 = new MySqlCommand($"{EDIT_VEHICLE}", connection);
+                try { connection.Open(); }
+                catch { MessageBox.Show("Error connecting with database!"); Application.Current.Shutdown(); }
+                var id = command1.ExecuteNonQuery();
+                var n = command2.ExecuteNonQuery();
+                status = true;
+                bid.BidID = (sbyte)command1.LastInsertedId;
+                connection.Close();
+            }
+
+            return status;
+        }
         #endregion
 
 
-      
+
     }
 }
