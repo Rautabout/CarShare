@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:CarShare.ViewModel" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:CarShare.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -21,7 +22,7 @@
 
         <StackPanel Grid.Row="1" >
             <ListView x:Name="AllMyVehicles" Height="290" Width="600"
-                      ItemsSource="{Binding myBidsViewModel.VehiclesList, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding myBidsViewModel.BidsList, UpdateSourceTrigger=PropertyChanged}"
                       SelectedIndex="{Binding myBidsViewModel.SelectedBid,Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
@@ -112,19 +113,21 @@
                         
                     </GridView>
                 </ListView.View>
-                <!--<i:Interaction.Triggers>
+                <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding vehiclesViewModel.LoadBid}"/>
+                        <i:InvokeCommandAction Command="{Binding myBidsViewModel.LoadBid}"/>
                     </i:EventTrigger>
-                </i:Interaction.Triggers>-->
+                </i:Interaction.Triggers>
             </ListView>
             
 
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBox Text="My Bid" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" Margin="20"/>
-            <TextBox Text="{Binding vehiclesViewModel.HighestBid,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
+            <TextBox Text="{Binding myBidsViewModel.HighestBid,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
             <Button Content="Bid" Height="30" Width="120" Margin="20"/>
+            <Button Content="Delete" Command="{Binding myBidsViewModel.DeleteBid}" Height="30" Width="120" Margin="15 0 15 0"/>
+            
         </StackPanel>
     </Grid>
 </UserControl>

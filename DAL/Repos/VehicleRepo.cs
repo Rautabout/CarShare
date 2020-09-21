@@ -40,7 +40,6 @@ namespace CarShare.DAL.Repos
             }
             return vehicles;
         }
-
         public static List<Vehicle> GetAllUserVehicles(sbyte currentUser)
         {
             List<Vehicle> vehicles = new List<Vehicle>();
@@ -75,27 +74,6 @@ namespace CarShare.DAL.Repos
             }
             return vehicles;
         }
-
-        public static List<Vehicle> GetAllVehiclesByID(sbyte vehicleID)
-        {
-            List<Vehicle> vehicles = new List<Vehicle>();
-            using (var connection = DBConnection.Instance.Connection)
-            {
-                MySqlCommand command = new MySqlCommand($"{ALL_VEHICLES_BY_ID} {vehicleID}", connection);
-                try { connection.Open(); }
-                catch { MessageBox.Show("Error connecting with database!"); Application.Current.Shutdown(); }
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    vehicles.Add(new Vehicle(reader));
-                }
-                connection.Close();
-            }
-            return vehicles;
-        }
-
-
-
         public static bool AddVehicleToDB(Vehicle vehicle)
         {
             bool status = false;
@@ -113,7 +91,6 @@ namespace CarShare.DAL.Repos
 
             return status;
         }
-
         public static bool EditVehicleInDB(Vehicle vehicle, sbyte vehicleID)
         {
             bool status = false;
@@ -135,7 +112,6 @@ namespace CarShare.DAL.Repos
             }
             return status;
         }
-
         public static bool DeleteVehicleInDB(object idVehicle)
         {
             bool status = false;

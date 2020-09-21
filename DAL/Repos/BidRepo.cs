@@ -14,11 +14,9 @@ namespace CarShare.DAL.Repos
     {
         #region SQL_QUERIES
         private const string ALL_BIDS = "SELECT * FROM bids";
-        private const string ALL_USER_BIDS = "SELECT * FROM bids WHERE UserID=";
         private const string ADD_BID = "INSERT INTO `bids`(`UserID`,`VehicleID`,`CurrentBid`) VALUES ";
+        private const string DELETE_BIDS = "DELETE FROM `bids` WHERE BidID=";
         private const string DELETE_USER_BIDS = "DELETE FROM `bids` WHERE UserID=";
-
-
 
         #endregion
 
@@ -40,26 +38,6 @@ namespace CarShare.DAL.Repos
             }
             return bids;
         }
-
-        public static List<Bid> GetAllUserBids(sbyte currentUser)
-        {
-            List<Bid> bids = new List<Bid>();
-            using (var connection = DBConnection.Instance.Connection)
-            {
-                MySqlCommand command = new MySqlCommand($"{ALL_USER_BIDS} {currentUser}", connection);
-                try { connection.Open(); }
-                catch { MessageBox.Show("Error connecting with database!"); Application.Current.Shutdown(); }
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    bids.Add(new Bid(reader));
-                }
-                connection.Close();
-            }
-            return bids;
-        }
-
-
         public static bool AddBidToDB(Bid bid)
         {
             bool status = false;
@@ -81,6 +59,22 @@ namespace CarShare.DAL.Repos
 
             return status;
         }
+        public static bool DeleteBidInDB(object idBid)
+        {
+            bool status = false;
+            using (var connection = DBConnection.Instance.Connection)
+            {
+
+                MySqlCommand command = new MySqlCommand($"{DELETE_BIDS} {idBid}", connection);
+                try { connection.Open(); }
+                catch { MessageBox.Show("Error connecting with database!"); Application.Current.Shutdown(); }
+                command.ExecuteNonQuery();
+                status = true;
+                connection.Close();
+            }
+            return status;
+        }
+
         #endregion
 
 

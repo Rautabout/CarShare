@@ -115,8 +115,6 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBox Text="My Bid" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" Margin="20"/>
             <TextBox Text="{Binding vehiclesViewModel.UserBid,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
-            <TextBox Text="{Binding vehiclesViewModel.UserID,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
-            <TextBox Text="{Binding vehiclesViewModel.VehicleID,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
             <Button Content="Bid" Command="{Binding vehiclesViewModel.AddBid}" Height="30" Width="120" Margin="20"/>
         </StackPanel>
     </Grid>

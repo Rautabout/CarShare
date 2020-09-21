@@ -150,6 +150,7 @@ namespace CarShare.Model
 
 
         #endregion
+
         #region AddBidToDB
         public bool IfBidInDB(Bid bid) => Bids.Contains(bid);
         public bool AddBid(Bid bid)
@@ -163,6 +164,19 @@ namespace CarShare.Model
                 return false;
             }
             Bids.Add(bid);
+            return true;
+        }
+        #endregion
+
+        #region RemoveBidFromDB
+        public bool RemoveBidFromDb(sbyte idBid)
+        {
+            if (!BidRepo.DeleteBidInDB(idBid)) return false;
+            for (int i = 0; i < Bids.Count; i++)
+            {
+                if (Bids[i].BidID != idBid) continue;
+                Bids.RemoveAt(i);
+            }
             return true;
         }
         #endregion

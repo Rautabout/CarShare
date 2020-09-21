@@ -17,31 +17,35 @@ namespace CarShare.ViewModel
         #region Private Components
         private DBConnection dBConnection;
         private Model model = null;
-        private int selectedBid;
-        private ObservableCollection<Bid> bids { get; set; } = new ObservableCollection<Bid>();
-        private ObservableCollection<Vehicle> vehicles { get; set; } = new ObservableCollection<Vehicle>();
+        private int selectedBid, highestBid;
+        sbyte bidID;
+        private ObservableCollection<VehicleBid> vehicleBids { get; set; } = new ObservableCollection<VehicleBid>();
+        private ObservableCollection<string> bidsList = new ObservableCollection<string>();
+
 
 
         #endregion
         #region Constructors
         public MyBidsViewModel(Model model)
         {
-            //this.model = model;
-            //vehicles = model.UserVehicles;
+            this.model = model;
             var userInfo = UserInfo.Instance;
             var currentUser = userInfo.currentUser;
-            var userBids = BidRepo.GetAllUserBids(currentUser);
+            var userBids = VehicleBidRepo.GetAllUserVehicleBid(currentUser);
             foreach (var uB in userBids)
             {
-                var vehiclesID = VehicleRepo.GetAllVehiclesByID((sbyte)uB.VehicleID);
-                bids.Add(uB);
-                foreach(var v in vehiclesID)
-                {
-                    vehicles.Add(v);
-                    
-                }
+                vehicleBids.Add(uB);
             }
 
+        }
+        public void BidsToList()
+        {
+            Bids = model.Bids;
+            bidsList = new ObservableCollection<string>();
+            foreach (var b in Bids)
+            {
+                bidsList.Add($"{b.BidID} {b.UserID} {b.VehicleID} {b.CurrentBid}");
+            }
         }
         #endregion
 
@@ -55,25 +59,19 @@ namespace CarShare.ViewModel
         #endregion
 
         #region Properties
+        public ObservableCollection<Bid> Bids { get; set; }
 
-        public ObservableCollection<Bid> BidsList
+
+        public ObservableCollection<VehicleBid> BidsList
         {
-            get { return bids; }
+            get { return vehicleBids; }
             set
             {
-                bids = value;
+                vehicleBids = value;
                 onPropertyChanged(nameof(BidsList));
             }
         }
-        public ObservableCollection<Vehicle> VehiclesList
-        {
-            get{ return vehicles; }
-            set
-            {
-                vehicles = value;
-                onPropertyChanged(nameof(VehiclesList));
-            }
-        }
+        
 
         public int SelectedBid
         {
@@ -84,8 +82,84 @@ namespace CarShare.ViewModel
                 onPropertyChanged(nameof(SelectedBid));
             }
         }
-
+        public sbyte BidID
+        {
+            get => bidID;
+            set
+            {
+                bidID = value;
+                onPropertyChanged(nameof(BidID));
+            }
+        }
+        public int HighestBid
+        {
+            get => highestBid;
+            set
+            {
+                highestBid = value;
+                onPropertyChanged(nameof(HighestBid));
+            }
+        }
         #endregion
+        #region Methods
 
+        private void GetBid(int bidID)
+        {
+            BidID = (sbyte)vehicleBids[bidID].BidID;
+            HighestBid = vehicleBids[bidID].HighestBid;
+        }
+
+        private void ClearAll()
+        {
+            BidID = 0;
+        }
+        private ICommand loadBid = null;
+        public ICommand LoadBid
+        {
+            get
+            {
+                if (loadBid == null)
+                {
+                    loadBid = new RelayCommand(arg =>
+                    {
+                        if (SelectedBid != -1)
+                        {
+                            GetBid(SelectedBid);
+                        }
+                        else
+                        {
+                            ClearAll();
+                        }
+
+                    },
+                      arg => true);
+                }
+                return loadBid;
+            }
+        }
+
+        private ICommand deleteBid = null;
+        public ICommand DeleteBid
+        {
+            get
+            {
+                if (deleteBid != null) return deleteBid;
+                deleteBid = new RelayCommand(
+                    arg =>
+                    {
+                        var idToRemove = SelectedBid;
+                        sbyte id = BidID;
+                        model.RemoveBidFromDb(id);
+                        System.Windows.MessageBox.Show($"Bid has been removed!");
+                        BidsToList();
+                        onPropertyChanged(nameof(bidsList));
+                    },
+                    arg => SelectedBid != -1
+                );
+
+                return deleteBid;
+            }
+        }
+        #endregion
     }
 }

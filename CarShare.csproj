@@ -113,6 +113,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAL\Entities\VehicleBid.cs" />
+    <Compile Include="DAL\Repos\VehicleBidRepo.cs" />
     <Compile Include="ViewModel\BaseClass\RelayCommand.cs" />
     <Compile Include="ViewModel\BaseClass\UpdateViewCommand.cs" />
     <Compile Include="ViewModel\BaseClass\ViewModelBase.cs" />
