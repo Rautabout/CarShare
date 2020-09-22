@@ -74,6 +74,29 @@ namespace CarShare.DAL.Repos
             }
             return status;
         }
+        public static bool EditBidInDB(Bid bid, sbyte bidId)
+        {
+            bool status = false;
+            using (var connection = DBConnection.Instance.Connection)
+            {
+                string EDIT_BID = $"UPDATE `bids` SET `CurrentBid`='{bid.CurrentBid}'" +
+                                           $" WHERE (`BidID`='{bidId}');";
+                string EDIT_VEHICLE = $"UPDATE `vehicles` SET `HighestBid`='{bid.CurrentBid}'" +
+                                           $" WHERE (`VehicleID`='{bid.VehicleID}');";
+                MySqlCommand command1 = new MySqlCommand($"{EDIT_BID}", connection);
+                MySqlCommand command2 = new MySqlCommand($"{EDIT_VEHICLE}", connection);
+
+                //MessageBox.Show(EDIT_VEHICLE);
+                try { connection.Open(); }
+                catch { MessageBox.Show("Error connecting with database!"); Application.Current.Shutdown(); }
+                var id = command1.ExecuteNonQuery();
+                var n = command2.ExecuteNonQuery();
+                status = true;
+
+                connection.Close();
+            }
+            return status;
+        }
 
         #endregion
 

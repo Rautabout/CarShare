@@ -14,7 +14,6 @@ namespace CarShare.DAL.Repos
         private const string ALL_VEHICLES = "SELECT * FROM vehicles";
         private const string ALL_USER_VEHICLES = "SELECT * FROM vehicles WHERE CurrentOwner=";
         private const string ALL_BUT_USER_VEHICLES = "SELECT * FROM vehicles WHERE NOT CurrentOwner=";
-        private const string ALL_VEHICLES_BY_ID = "SELECT * FROM vehicles WHERE VehicleID=";
         private const string ADD_VEHICLE = "INSERT INTO `vehicles`(`Maker`, `Model`, `Version`, `Engine`, `Power`, `ModelYear`,`CurrentOwner`) VALUES ";
         private const string DELETE_VEHICLE= "DELETE FROM `vehicles` WHERE VehicleID=";
         private const string DELETE_VEHICLE_BIDS = "DELETE FROM `bids` WHERE VehicleID=";

@@ -124,8 +124,8 @@
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBox Text="My Bid" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" Margin="20"/>
-            <TextBox Text="{Binding myBidsViewModel.HighestBid,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
-            <Button Content="Bid" Height="30" Width="120" Margin="20"/>
+            <TextBox Text="{Binding myBidsViewModel.CurrentBid,Mode=TwoWay}" Height="30" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="20"/>
+            <Button Content="Change Bid" Command="{Binding myBidsViewModel.EditBid}" Height="30" Width="120" Margin="20"/>
             <Button Content="Delete" Command="{Binding myBidsViewModel.DeleteBid}" Height="30" Width="120" Margin="15 0 15 0"/>
             
         </StackPanel>

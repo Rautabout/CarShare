@@ -17,8 +17,8 @@ namespace CarShare.ViewModel
         #region Private Components
         private DBConnection dBConnection;
         private Model model = null;
-        private int selectedBid, highestBid;
-        sbyte bidID;
+        private int currentBid, highestBid, selectedBid;
+        sbyte bidID,userID,vehicleID;
         private ObservableCollection<VehicleBid> vehicleBids { get; set; } = new ObservableCollection<VehicleBid>();
         private ObservableCollection<string> bidsList = new ObservableCollection<string>();
 
@@ -71,7 +71,6 @@ namespace CarShare.ViewModel
                 onPropertyChanged(nameof(BidsList));
             }
         }
-        
 
         public int SelectedBid
         {
@@ -80,6 +79,15 @@ namespace CarShare.ViewModel
             {
                 selectedBid = value;
                 onPropertyChanged(nameof(SelectedBid));
+            }
+        }
+        public int CurrentBid
+        {
+            get => currentBid;
+            set
+            {
+                currentBid = value;
+                onPropertyChanged(nameof(CurrentBid));
             }
         }
         public sbyte BidID
@@ -91,6 +99,24 @@ namespace CarShare.ViewModel
                 onPropertyChanged(nameof(BidID));
             }
         }
+        public sbyte UserID
+        {
+            get => userID;
+            set
+            {
+                userID = value;
+                onPropertyChanged(nameof(UserID));
+            }
+        }
+        public sbyte VehicleID
+        {
+            get => vehicleID;
+            set
+            {
+                vehicleID = value;
+                onPropertyChanged(nameof(VehicleID));
+            }
+        }
         public int HighestBid
         {
             get => highestBid;
@@ -100,12 +126,14 @@ namespace CarShare.ViewModel
                 onPropertyChanged(nameof(HighestBid));
             }
         }
+
         #endregion
         #region Methods
 
         private void GetBid(int bidID)
         {
             BidID = (sbyte)vehicleBids[bidID].BidID;
+            VehicleID = (sbyte)vehicleBids[bidID].VehicleID;
             HighestBid = vehicleBids[bidID].HighestBid;
         }
 
@@ -158,6 +186,40 @@ namespace CarShare.ViewModel
                 );
 
                 return deleteBid;
+            }
+        }
+
+        private ICommand editBid = null;
+        public ICommand EditBid
+        {
+            get
+            {
+                if (editBid != null) return editBid;
+                editBid = new RelayCommand(
+                    arg =>
+                    {
+                        if (CurrentBid == HighestBid)
+                        {
+                            System.Windows.MessageBox.Show($"Bid to low!");
+                            return;
+                        }
+                        var bid = new Bid(UserID,VehicleID,CurrentBid);
+                        var idBid = SelectedBid;
+                        sbyte id = BidID;
+
+                        if (!model.EditBidInDB(bid, id)) return;
+                        System.Windows.MessageBox.Show($"Bid has been edited in database!");
+                        BidsToList();
+                        ClearAll();
+                        onPropertyChanged(nameof(userID));
+                        onPropertyChanged(nameof(vehicleID));
+                        onPropertyChanged(nameof(currentBid));
+                       
+                    },
+                    arg => (CurrentBid!=0)
+                );
+
+                return editBid;
             }
         }
         #endregion

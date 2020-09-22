@@ -168,6 +168,22 @@ namespace CarShare.Model
         }
         #endregion
 
+        #region EditBidInDB
+        public bool EditBidInDB(Bid bid, sbyte idBid)
+        {
+            if (!BidRepo.EditBidInDB(bid, idBid)) return false;
+            for (int i = 0; i < Bids.Count; i++)
+            {
+                if (Bids[i].BidID != idBid) continue;
+                bid.BidID = idBid;
+                Bids[i] = new Bid(bid);
+            }
+
+            return true;
+        }
+
+        #endregion
+
         #region RemoveBidFromDB
         public bool RemoveBidFromDb(sbyte idBid)
         {
